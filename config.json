@@ -1,0 +1,10 @@
+{
+    "vcenter" : "127.0.0.1",
+    "username": "low_priv_user",
+    "password": "not_a_password_1",
+    "folders" : [
+                    { "name": "Folder1", "revert_type": "indivdual", "title": "Training VMs" },
+                    { "name": "Folder2", "revert_type": "all", "title": "Lab Environment" },
+                    { "name": "Folder3", "revert_type": "indivdual", "title": "Exam VMs" }
+                ]
+}
