@@ -1,4 +1,7 @@
 {
+    "pfurl"   : "https://192.168.1.1",
+    "pfuser"  : "PFSENSE",    
+    "pfpass"  : "admin",
     "vcenter" : "127.0.0.1",
     "username": "low_priv_user",
     "password": "not_a_password_1",
