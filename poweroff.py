@@ -82,9 +82,10 @@ if clients:
     print "The following people are still connected"
     print clients
 else:
-    print "No clients connected to VPN powering off"
+    print "No clients connected to VPN powering off VMs."
     vm = vmware()
     con = vm.connect(VCENTER,USERNAME,PASSWORD)
 
     for f in FOLDERS:
+        print "Turning off VMs in folder {}".format(f['name'])
         vm.poweroff_folder(con, f['name'])
