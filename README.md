@@ -5,7 +5,7 @@ A script I threw together to revert VMs to snapshot.
 * You will need flask installed `pip install flask`.
 * You will need the [pyvmomi](https://github.com/vmware/pyvmomi) installed `pip install --upgrade pyvmomi`.
 * You will need the wsgi module installed `apt install libapache2-mod-wsgi`.
-* For poweroff.py you need `pip install pandas` and `pip install lxml`.
+* For poweroff.py you need `pip install pandas`, `pip install lxml` and `apt install python-bs4`.
 
 # Setup
 * Copy the contents of the repositry to `/var/www/VMRevert/`.
