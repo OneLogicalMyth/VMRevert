@@ -55,7 +55,19 @@ class vmware(object):
         if cluster:
             VMs = []
             for VM in cluster.childEntity:
-                VMs += [{ "name": VM.name, "state": VM.runtime.powerState }]
+
+            	# just place NoShow in your VM name for it not to display
+                if "NoShow" in VM.name:
+                    continue
+
+                #grab MAC address for VM
+                vm_obj = self.get_obj(content, [vim.VirtualMachine], VM.name)
+                for dev in vm_obj.config.hardware.device:
+                    if isinstance(dev, vim.vm.device.VirtualEthernetCard):
+                        MacAddress = dev.macAddress
+
+                #return object
+                VMs += [{ "name": VM.name, "state": VM.runtime.powerState, "MAC": MacAddress }]
 
 	    return VMs
         else:
@@ -69,7 +81,18 @@ class vmware(object):
             current_snapref = vm.snapshot.currentSnapshot
             current_snap_obj = self.get_current_snap_obj(vm.snapshot.rootSnapshotList, current_snapref)
 
-            WaitForTask(current_snap_obj[0].snapshot.RevertToSnapshot_Task())
+            current_snap_obj[0].snapshot.RevertToSnapshot_Task()
+
             return True
         else:
             return None
+
+    def poweroff_folder(self, vcenter_ses, folder_name):
+        content = vcenter_ses.RetrieveContent()
+        cluster = self.get_obj(content, [vim.Folder], folder_name)
+
+        if cluster:
+            for vm in cluster.childEntity:
+                if vm.runtime.powerState == vim.VirtualMachinePowerState.poweredOn:
+                    vm.PowerOff()
+

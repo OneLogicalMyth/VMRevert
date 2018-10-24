@@ -1,55 +1,63 @@
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css') }}" />
-        <link href="{{ url_for('static', filename='table.css') }}" rel="stylesheet">
-        <style>
-               html {
-                 position: relative;
-                 min-height: 100%;
-               }
-               body {
-                 margin-bottom: 60px;
-               }
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
-               .footer {
-                 position: absolute;
-                 bottom: 0;
-                 width: 100%;
-                 height: 40px;
-                 line-height: 40px;
-                 background-color: #f5f5f5;
-                }
-        </style>
-    </head>    
-<body>
+    <title>Training Lab Management</title>
 
-    <div class="container">
-    <div class="page-header"><h1 class="text-center">VM Revert</h1></div>        
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
 
-{% if status %}
-    <div class="row">
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='dashboard.css') }}" rel="stylesheet">
+  </head>
 
-        <div class="col-md-10 col-md-offset-1">
-            <div class="alert alert-{{ alerttype }} alert-dismissible fade in text-center" role="alert">{{ status }}</div>
+  <body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-md-12" href="{{ url_for('home') }}">Training Lab Management</a>
+    </nav>
+
+    <div class="container-fluid">
+      {% if status %}
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 pt-3 px-4">
+            <div class="alert alert-{{ alerttype }} text-center" role="alert">{{ status }}</div>
         </div>
-
-  </div>
-{% endif %}
-
-{{ content|safe }}
-        
-        </div>
-
-
-    <footer class="footer">
-      <div class="container">
-        <span class="text-muted"><a href="https://github.com/OneLogicalMyth/VMRevert">OneLogicalMyth</a> - Copyright 2018</span>
+        <div class="col-md-4"></div>
       </div>
-    </footer>
+      {% endif %}
+      <div class="row">
+        <main role="main" class="col-sm-8 pt-3 px-4">
+            {{ content|safe }}
+        </main>
+       <div class="col-sm-4 pt-3 px-4">
+             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom"><h1 class="h2">Connected VPN Users</h1></div>
+             <ul class="list-group">
+             {{ vpn|safe }}
+             </ul>
+       </div>
+      </div>
+    </div>
 
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="jquery-slim.min.js"><\/script>')</script>
+    <script src="{{ url_for('static', filename='popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard.cssbootstrap.min.js') }}"></script>
 
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
 
-    </body>
-    
-    
+  </body>
 </html>
+

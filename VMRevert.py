@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from os.path import abspath, exists
 from vmware import vmware
 from tables import tables
@@ -36,21 +36,29 @@ def index(status,alerttype):
     connection = obj_vmware.connect(VCENTER, USERNAME, PASSWORD)
 
     # build the tables
+    tbl = tables()
     html_tables = ''
     for folder in FOLDERS:
         vms = obj_vmware.get_folder_vms(connection, folder["name"])
-        html_tables += tables().create_table(folder["name"], folder["title"], folder["revert_type"], vms)
+        html_tables += tbl.create_table(folder["name"], folder["title"], folder["revert_type"], vms)
+
+    # create VPN user list
+    list = tbl.create_vpnlist()
 
     # disconnect from vcenter
     obj_vmware.disconnect(connection)
 
-    return render_template('index.html', content=html_tables, status=status, alerttype=alerttype)
+    return render_template('index.html', content=html_tables, vpn=list, status=status, alerttype=alerttype)
 
 
 # start application routes
 @app.route('/')
 def home():
     return index("","")
+
+@app.route('/status/<alerttype>/<status>')
+def status(alerttype,status):
+    return index(status,alerttype)
 
 @app.route('/revert/<type>/<name>')
 def revert(type, name):
@@ -93,7 +101,7 @@ def revert(type, name):
     # disconnect from vcenter
     obj_vmware.disconnect(connection)
 
-    return index(status,alerttype)
+    return redirect(url_for('status', alerttype=alerttype, status=status), code=302)
 
 
 if __name__ == '__main__':
