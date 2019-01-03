@@ -14,7 +14,7 @@ class vmware(object):
 
     def __init__(self):
         # disabled SSL certificate verification
-        self.context = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+        self.context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
         self.context.verify_mode = ssl.CERT_NONE
 
     def connect(self, vcenter, username, password):
